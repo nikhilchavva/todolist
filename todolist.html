@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>ToDoList</title>
+</head>
+<body>
+    <div id="todolist"></div>
+</body>
+<script type="text/babel">
+    class Todo extends React.Component{
+        constructor(props){
+            super(props)
+            this.state={input:"", list:[]};
+        }
+        render(){
+            return(
+                <div>
+                <h1>ToDoList</h1>
+                <input onChange={this.readInput}type="text" value={this.state.input} />
+                <button onClick={this.click}>Add</button>  
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                            {
+                            this.state.list.map((ele,i)=>
+                                <tr key={i}><td>{ele}</td><td><button onClick={()=>this.remove(i)}>Remove</button></td></tr>
+                            )
+                        }
+                </tbody>
+                </table>  
+            </div>
+            );
+        }
+
+        remove=(i)=>{
+                this.setState(state=>{ 
+                const list=[...this.state.list]
+                list.splice(i,1)
+                return{
+                    list:list
+                    
+                
+                };
+                    
+            })
+        }
+
+
+        readInput = (ele) =>{
+                this.setState({input:ele.target.value});	
+        }
+        click = () =>{
+            this.setState({list:[...this.state.list,this.state.input],input:""});
+            console.log(this.state.list)
+        }
+    }
+    ReactDOM.render(< Todo />,document.querySelector('#todolist'))
+</script>
+</html>
